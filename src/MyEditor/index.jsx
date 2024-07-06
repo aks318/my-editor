@@ -60,6 +60,11 @@ const MyEditor = () => {
           }),
         ]}
       />
+      <MDXEditor
+        markdown={markDown}
+        readOnly
+        plugins={[listsPlugin(), headingsPlugin()]}
+      />
     </div>
   );
 };
