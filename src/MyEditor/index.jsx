@@ -5,11 +5,16 @@ import {
   BlockTypeSelect,
   BoldItalicUnderlineToggles,
   Button,
+  CreateLink,
+  InsertImage,
   ListsToggle,
   MDXEditor,
   Separator,
   UndoRedo,
   headingsPlugin,
+  imagePlugin,
+  linkDialogPlugin,
+  linkPlugin,
   listsPlugin,
   toolbarPlugin,
 } from "@mdxeditor/editor";
@@ -30,8 +35,6 @@ const MyEditor = () => {
         className="Editable"
         placeholder="Editable Area"
         plugins={[
-          listsPlugin(),
-          headingsPlugin(),
           toolbarPlugin({
             toolbarContents: () => (
               <>
@@ -42,7 +45,10 @@ const MyEditor = () => {
                 <Separator />
                 <BlockTypeSelect />
                 <Separator />
-                <ListsToggle options={["number", "bullet"]} />
+                <ListsToggle />
+                <Separator />
+                <CreateLink />
+                <InsertImage />
                 <Separator />
                 <Button
                   onClick={handleSave}
@@ -58,12 +64,25 @@ const MyEditor = () => {
               </>
             ),
           }),
+          listsPlugin(),
+          headingsPlugin(),
+          linkPlugin(),
+          linkDialogPlugin({
+            linkAutocompleteSuggestions: [
+              "https://virtuoso.dev",
+              "https://mdxeditor.dev",
+            ],
+          }),
+          imagePlugin({
+            imageUploadHandler: () => {
+              return Promise.resolve("https://picsum.photos/200/300");
+            },
+            imageAutocompleteSuggestions: [
+              "https://picsum.photos/200/300",
+              "https://picsum.photos/200",
+            ],
+          }),
         ]}
-      />
-      <MDXEditor
-        markdown={markDown}
-        readOnly
-        plugins={[listsPlugin(), headingsPlugin()]}
       />
     </div>
   );
